@@ -27,7 +27,7 @@ Listed below are some major responsibilities of this group. Some of the tasks ar
   * Try and remove occlusions by integrating views of the same persons from other cameras - Monica
 * Statistical Analysis - Aws (& others, if necessary)
   * Calculate values such as number of visitors in a day
-    * Find ranges of points in tracks where visitors have 'stopped' - DONE (Pramit) - minor issue present (Issue #2 in commit bee858f34186fd3d2df5c94ab0872053e469e8ca); needs modification
+    * Find ranges of points in tracks where visitors have 'stopped' - DONE (Pramit)
   * Popular or most-visited exhibits according to the time in front of the exhibits
   * Sequence of visiting the exhibits
   * Facial emotions, posture etc.
