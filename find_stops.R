@@ -17,8 +17,8 @@ find_diffs_it = function(xyb)
         flag = FALSE
       }
     }
-    breaklist = append(breaklist, x)
     if(!flag) break
+    breaklist = append(breaklist, x)
     x = x+1
     if(x >= dimx) flag = FALSE
     while(x+1 <= dimx && xyb[x,3] == xyb[x+1,3])
@@ -37,7 +37,8 @@ find_diffs_it = function(xyb)
       breaklist = append(breaklist, dimx)
     }
   }
-  return(breaklist[1:length(breaklist)-1])
+  # return(breaklist[1:length(breaklist)-1])
+  return(breaklist[1:length(breaklist)])
 }
 
 demarcate_stops = function(track_no)
@@ -70,6 +71,8 @@ demarcate_stops = function(track_no)
     bpts_df = as.data.frame(bpts_mat)
     duration = vector(length = dim(bpts_df)[1])
     bbox = list()
+    
+    plot(egtrack, type = 'b', main = track_no)
     # plot(egtrack, type = 'b', ylim = c(0,6), xlim = c(-1,5))
     # points(cam, col = "red", pch = 19)
     
@@ -82,7 +85,7 @@ demarcate_stops = function(track_no)
       tmp_pts = coordinates(egtrack)
       tmp_sequence = seq(from = bpts_df$start[stops], to = bpts_df$end[stops])
       affected_bbox[[stops]] = bbox(tmp_pts[tmp_sequence, ])
-      # rect(xleft = affected_bbox[[stops]][1,1], ybottom = affected_bbox[[stops]][2,1], xright = affected_bbox[[stops]][1,2], ytop = affected_bbox[[stops]][2,2], col = rgb(1,0,0,0.1), border = TRUE, lwd = 2)
+      rect(xleft = affected_bbox[[stops]][1,1], ybottom = affected_bbox[[stops]][2,1], xright = affected_bbox[[stops]][1,2], ytop = affected_bbox[[stops]][2,2], col = rgb(1,0,0,0.1), border = TRUE, lwd = 2)
     }
     # bbox
     bpts_df = cbind(bpts_df, as.data.frame(duration))
