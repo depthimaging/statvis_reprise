@@ -41,10 +41,10 @@ find_diffs_it = function(xyb)
   return(breaklist[1:length(breaklist)])
 }
 
-demarcate_stops = function(track_no)
+demarcate_stops = function(track_no, track_bunch)
 {
   #In demarcate_stops!
-  egtrack = globalized_tracks[[track_no]]
+  egtrack = track_bunch[[track_no]]
   length_egtrack = dim(egtrack)[1]
   bool_stop = vector(length = length_egtrack-1)
   dist_window_m = 0.5
@@ -65,6 +65,9 @@ demarcate_stops = function(track_no)
   
   bpts = find_diffs_it(bpds)
   no_of_stop = length(bpts)/2
+  
+  plot(egtrack, type = 'b', main = track_no)
+  
   if(no_of_stop > 0)
   {
     bpts_mat = matrix(data = bpts, ncol = 2, byrow = TRUE, dimnames = list(c(), c("start", "end")))
@@ -72,9 +75,9 @@ demarcate_stops = function(track_no)
     duration = vector(length = dim(bpts_df)[1])
     bbox = list()
     
-    plot(egtrack, type = 'b', main = track_no)
-    # plot(egtrack, type = 'b', ylim = c(0,6), xlim = c(-1,5))
-    # points(cam, col = "red", pch = 19)
+    # plot(egtrack, type = 'b', main = track_no)
+    # # plot(egtrack, type = 'b', ylim = c(0,6), xlim = c(-1,5))
+    # # points(cam, col = "red", pch = 19)
     
     # plot(egtrack, type = 'b')
     affected_bbox = list()
@@ -92,3 +95,4 @@ demarcate_stops = function(track_no)
   } else bpts_df = NA
   return(bpts_df)
 }
+

@@ -50,8 +50,11 @@ duplicate_trackpoints = function(tA, tB)
     # sdist = sdist[-c(1)]
     # tdist = tdist[-c(1)]
     
-    sD = cross_spatial_treshold(sdist)
+    # sD = cross_spatial_treshold(sdist)
+    # tD = cross_temporal_treshold(tdist)
+    sD = cross_spatial_treshold(sdist, treshold = 1)
     tD = cross_temporal_treshold(tdist)
+    
     tdist = as.difftime(tdist, units = "secs")
     stD = sD & tD
     ijd = data.frame(index, sdist, sD, tdist, tD, stD)    
