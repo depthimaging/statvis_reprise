@@ -22,8 +22,8 @@ Listed below are some major responsibilities of this group. Some of the tasks ar
   * Set up a global reference system into which all coordinates from local coordinate systems of individual cameras have to be mapped - DONE (Pramit)
   * Finding Open/Closed regions in the study area and exporting them as polygons readable by GDAL/OGR - Liu
 * Processing to take care of visitor trajectories and movements
-  * Recognizing individual visitors from spatio-temporal data only (won't focus on joint distance measurements): one person can be there at only one position at a particular instance of time - DONE (Pramit) - needs to be tested
-    * Merge tracks suspected to be of the same person into one - Pramit
+  * Recognizing individual visitors from spatio-temporal data only (won't focus on joint distance measurements): one person can be there at only one position at a particular instance of time - DONE (Pramit)
+    * Merge tracks suspected to be of the same person into one - DONE (Pramit) - needs to be tested; can be postponed
   * Try and remove occlusions by integrating views of the same persons from other cameras - Monica
 * Statistical Analysis - Aws (& others, if necessary)
   * Calculate values such as number of visitors in a day
