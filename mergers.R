@@ -11,6 +11,8 @@ merge_static = function(A, B)
   camB = head(unique(B@sp$camera),1)
   overlap = duplicate_trackpoints(A, B)
   overlap = subset(overlap, stD == TRUE)
+  #Cases where one track is a temporal subset of another track might not work - testing needed!
+  
   ioA = overlap$i
   ioB = overlap$j
   cA = coordinates(A)
@@ -96,9 +98,17 @@ merge_static = function(A, B)
   ctmid = na.omit(ctmid)
   post = na.omit(post)
   
+  # pre = pre[!all(is.na(pre)),]
+  # ctmid = ctmid[!all(is.na(ctmid)),]
+  # post = post[!all(is.na(post)),]
+  
   pre_d = na.omit(pre_d)
   dmid = na.omit(dmid)
   post_d = na.omit(post_d)
+  
+  # pre_d = pre_d[!all(is.na(pre_d)),]
+  # dmid = dmid[!all(is.na(dmid)),]
+  # post_d = post_d[!all(is.na(post_d)),]
   
   colnames(pre) = colnames(ctmid)
   colnames(post) = colnames(ctmid)
@@ -113,14 +123,90 @@ merge_static = function(A, B)
   ct = rbind(pre, ctmid, post)
   # ct = na.omit(ct)
   
-  #Joints data removed for now... can be integrated later on!
-  # pre_d_jd = subset(pre_d, select = -18)
-  # dmid_jd = subset(dmid, select = -18)
-  # post_d_jd = subset(post_d, select = -18)
   ad = rbind(pre_d, dmid, post_d)
   
   sp_obj = SpatialPointsDataFrame(coords = data.frame(ct[,1], ct[,2]), data = ad)
   stidf_obj = STIDF(sp = sp_obj, time = sp_obj@data$time, data = subset(data.frame(misc = sp_obj@data), select = -c(2)))
   st_merged = Track(stidf_obj)
   return(st_merged)
+}
+
+
+merge_dynamic = function(A, B)
+{
+  flag = TRUE
+  dyn_merged = NA
+  
+  #The following line assumes that there is no temporal overlap between A and B
+  if(head(time(A),1) > tail(time(B),1))
+  {
+    C = B
+    B = A
+    A = C
+  } else if (head(time(B),1) > tail(time(A),1))
+  {
+    B = B
+    A = A
+  } else flag = FALSE
+  
+  if(flag)
+  {
+    cA = coordinates(A)
+    cB = coordinates(B)
+    tA = time(A)
+    tB = time(B)
+    ctA = data.frame(cA, tA)
+    ctB = data.frame(cB, tB)
+    dA = A@sp@data
+    dB = B@sp@data
+    
+    # pre = ctA[1:head(ioA, 1)-1,]
+    # if(dim(na.omit(pre))[1] <= 0)
+    # {
+    #   pre = ctB[1:head(ioB, 1)-1,]
+    #   # pre_d = dB[1:head(ioB, 1)-1,]
+    #   pre_d = dB@data[1:head(ioB, 1)-1,]
+    # } else  pre_d = dA@data[1:head(ioA, 1)-1,]
+    # 
+    # 
+    # post = ctB[tail(ioB, 1)+1:length(B),]
+    # if(dim(na.omit(post))[1] <= 0)
+    # {
+    #   post = ctA[tail(ioA, 1)+1:length(A),]
+    #   if(tail(ioA, 1)+1 < length(A))
+    #     post_d = dA@data[tail(ioA, 1)+1:length(A),]
+    #   else
+    #     post_d = dA@data[length(A):length(A),]
+    # } else  post_d = dB@data[tail(ioB, 1)+1:length(B),]
+    
+    pre = na.omit(ctA)
+    # ctmid = na.omit(ctmid)
+    post = na.omit(ctB)
+    
+    # pre_d = na.omit(dA)
+    # # dmid = na.omit(dmid)
+    # post_d = na.omit(dB)
+    pre_d = dA[!all(is.na(dA)),]
+    post_d = dB[!all(is.na(dB)),]
+   
+    colnames(pre) = c("ct_1", "ct_2", "t")
+    colnames(post) = c("ct_1", "ct_2", "t")
+    
+    rownames(pre) = 1:dim(pre)[1]
+    # rownames(ctmid) = (dim(pre)[1]+1):(dim(pre)[1]+dim(ctmid)[1])
+    rownames(post) = (dim(pre)[1]+1):(dim(pre)[1]+dim(post)[1])
+    
+    rownames(pre_d) = rownames(pre)
+    # rownames(dmid) = rownames(ctmid)
+    rownames(post_d) = rownames(post)
+    
+    ct = rbind(pre, post)
+    # ct = na.omit(ct)
+    ad = rbind(pre_d, post_d)
+    
+    sp_obj = SpatialPointsDataFrame(coords = data.frame(ct[,1], ct[,2]), data = ad)
+    stidf_obj = STIDF(sp = sp_obj, time = sp_obj@data$time, data = subset(data.frame(misc = sp_obj@data), select = -c(2)))
+    dyn_merged = Track(stidf_obj)
+  }
+  return(dyn_merged)
 }

@@ -22,6 +22,8 @@ for(tno in 1:length(globalized_tracks))
     # print(tnoc)
     
     intercamera_static_return = duplicate_trackpoints(globalized_tracks[[tno]], globalized_tracks[[tnoc]])
+    # intercamera_static_return = intercamera_static_return[,stD == TRUE]
+    
     fname = paste("generated/dup_det", tno, tnoc, sep = "_")
     fname = paste(fname, ".Rda", sep = "")
     saveRDS(object = intercamera_static_return, file = fname)
