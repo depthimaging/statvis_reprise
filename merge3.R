@@ -90,75 +90,90 @@ res_static = static_merge()
 static_bw = res_static@black_white
 
 source("mergers.R")
-for(static_pairs in 1:dim(static_bw)[1])
+if(dim(static_bw)[1] > 0)
 {
-  s_merged[[static_bw[static_pairs, 2]]] = merge_static(s_merged[[static_bw[static_pairs, 1]]], s_merged[[static_bw[static_pairs, 2]]])
-  s_merged[[static_bw[static_pairs, 1]]] = NA
+  for(static_pairs in 1:dim(static_bw)[1])
+  {
+    s_merged[[static_bw[static_pairs, 2]]] = merge_static(s_merged[[static_bw[static_pairs, 1]]], s_merged[[static_bw[static_pairs, 2]]])
+    s_merged[[static_bw[static_pairs, 1]]] = NA
+  }
 }
 
 #Dynamic merging starts...
 
-dynamic_mlist = helper_dynamic_merge()
-dynamic_mlist_archive = dynamic_mlist
-for(dyn_row in 1:dim(dynamic_mlist)[1])
+if(!all(is.na(unlist(dup_mat_dyn))))
 {
-  if(is.element(dynamic_mlist[dyn_row, 1], static_bw[,1]))
-    dynamic_mlist[dyn_row, 1] = static_bw[match(dynamic_mlist[dyn_row, 1], static_bw[,1]),2]
-  if(is.element(dynamic_mlist[dyn_row, 2], static_bw[,1]))
-    dynamic_mlist[dyn_row, 2] = static_bw[match(dynamic_mlist[dyn_row, 2], static_bw[,1]),2]
-}
-
-colnames(dynamic_mlist) = c("dyn1", "dyn2")
-# dynamic_mlist = dynamic_mlist[dyn1 != dyn2]
-dynamic_mlist = subset(dynamic_mlist, subset = dyn1 != dyn2)
-
-d_merged = list()
-length(d_merged) = length(s_merged)
-d_black = c()
-# for(sm_tracks in 1:length(s_merged))
-# {
-#   if(is.element(sm_tracks, unique(unlist(dynamic_mlist))))
-#   {
-#     for(dyn_row in 1:dim(dynamic_mlist)[1])
-#     {
-#       dm_track = merge_dynamic(s_merged[[dynamic_mlist[dyn_row,1]]], s_merged[[dynamic_mlist[dyn_row,2]]])
-#       if(!is.na(dm_track))
-#       {
-#         d_merged = list(d_merged, list(dm_track))
-#       }
-#     }
-#   } else
-#   {
-#     d_merged = list(d_merged, list(s_merged[[sm_tracks]]))
-#   }
-# }
-
-for(dyn_row in 1:dim(dynamic_mlist)[1])
-{
-  dm_track = merge_dynamic(s_merged[[dynamic_mlist[dyn_row,1]]], s_merged[[dynamic_mlist[dyn_row,2]]])
-  if(!is.na(dm_track))
+  d_merged = list()
+  length(d_merged) = length(s_merged)
+  d_black = c()
+  
+  dynamic_mlist = helper_dynamic_merge()
+  dynamic_mlist_archive = dynamic_mlist
+  for(dyn_row in 1:dim(dynamic_mlist)[1])
   {
-  #   s_merged[[dynamic_mlist[dyn_row,1]]] = dm_track
-  #   s_merged[[dynamic_mlist[dyn_row,2]]] = dm_track
-    d_merged_pos = min(dynamic_mlist[dyn_row,1], dynamic_mlist[dyn_row,2])
-    d_black = c(d_black, dynamic_mlist[dyn_row,1], dynamic_mlist[dyn_row,2])
-    # d_merged[[d_merged_pos]] = list(d_merged, list(dm_track))
-    d_merged[[d_merged_pos]] = dm_track
-    for(each_row in 1:dim(dynamic_mlist)[1])
+    if(is.element(dynamic_mlist[dyn_row, 1], static_bw[,1]))
+      dynamic_mlist[dyn_row, 1] = static_bw[match(dynamic_mlist[dyn_row, 1], static_bw[,1]),2]
+    if(is.element(dynamic_mlist[dyn_row, 2], static_bw[,1]))
+      dynamic_mlist[dyn_row, 2] = static_bw[match(dynamic_mlist[dyn_row, 2], static_bw[,1]),2]
+  }
+
+
+  colnames(dynamic_mlist) = c("dyn1", "dyn2")
+  # dynamic_mlist = dynamic_mlist[dyn1 != dyn2]
+  dynamic_mlist = subset(dynamic_mlist, subset = dyn1 != dyn2)
+  
+  # d_merged = list()
+  # length(d_merged) = length(s_merged)
+  # d_black = c()
+  
+  # for(sm_tracks in 1:length(s_merged))
+  # {
+  #   if(is.element(sm_tracks, unique(unlist(dynamic_mlist))))
+  #   {
+  #     for(dyn_row in 1:dim(dynamic_mlist)[1])
+  #     {
+  #       dm_track = merge_dynamic(s_merged[[dynamic_mlist[dyn_row,1]]], s_merged[[dynamic_mlist[dyn_row,2]]])
+  #       if(!is.na(dm_track))
+  #       {
+  #         d_merged = list(d_merged, list(dm_track))
+  #       }
+  #     }
+  #   } else
+  #   {
+  #     d_merged = list(d_merged, list(s_merged[[sm_tracks]]))
+  #   }
+  # }
+  
+  for(dyn_row in 1:dim(dynamic_mlist)[1])
+  {
+    dm_track = merge_dynamic(s_merged[[dynamic_mlist[dyn_row,1]]], s_merged[[dynamic_mlist[dyn_row,2]]])
+    if(!is.na(dm_track))
     {
-      if(dynamic_mlist[each_row, 1] == d_merged_pos)
-        dynamic_mlist[each_row, 2] = d_merged_pos
-      if(dynamic_mlist[each_row, 2] == d_merged_pos)
-        dynamic_mlist[each_row, 1] = d_merged_pos
+    #   s_merged[[dynamic_mlist[dyn_row,1]]] = dm_track
+    #   s_merged[[dynamic_mlist[dyn_row,2]]] = dm_track
+      d_merged_pos = min(dynamic_mlist[dyn_row,1], dynamic_mlist[dyn_row,2])
+      d_black = c(d_black, dynamic_mlist[dyn_row,1], dynamic_mlist[dyn_row,2])
+      # d_merged[[d_merged_pos]] = list(d_merged, list(dm_track))
+      d_merged[[d_merged_pos]] = dm_track
+      for(each_row in 1:dim(dynamic_mlist)[1])
+      {
+        if(dynamic_mlist[each_row, 1] == d_merged_pos)
+          dynamic_mlist[each_row, 2] = d_merged_pos
+        if(dynamic_mlist[each_row, 2] == d_merged_pos)
+          dynamic_mlist[each_row, 1] = d_merged_pos
+      }
     }
   }
-}
-
-for(t in 1:length(d_merged))
-{
-  if(is.null(d_merged[[t]]) && !is.element(t, d_black))
+  
+  for(t in 1:length(d_merged))
   {
-    d_merged[[t]] = s_merged[[t]]
+    if(is.null(d_merged[[t]]) && !is.element(t, d_black))
+    {
+      d_merged[[t]] = s_merged[[t]]
+    }
   }
+} else
+{
+  d_merged = s_merged
 }
 

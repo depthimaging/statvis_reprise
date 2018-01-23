@@ -26,6 +26,9 @@ merged_tracks_d = d_merged[!is.na(d_merged)]
 null_filter = lapply(X = merged_tracks_d, FUN = is.null)
 # merged_tracks_d = d_merged[!is.na(d_merged)]
 merged_tracks_d = merged_tracks_d[null_filter == FALSE]
+
+# breaks_g = stat_version(globalized_tracks)
+# breaks_s = stat_version(merged_tracks_s)
 breaks = stat_version(merged_tracks_d)
 
 

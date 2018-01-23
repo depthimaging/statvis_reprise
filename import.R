@@ -6,6 +6,7 @@ library('jsonlite')
 json_data = list(c1 = list(), c2 = list(), c4 = list())
 
 files = list.files(path = "Experiments/", pattern = "*.json", recursive = TRUE, full.names = TRUE)
+# files = list.files(path = "ExperimentsTrials/", pattern = "*.json", recursive = TRUE, full.names = TRUE)
 
 for(filename_w_path in files)
 {

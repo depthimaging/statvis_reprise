@@ -60,13 +60,17 @@ demarcate_stops = function(track_no, track_bunch)
     i = i+1
   }
   
-  egtrack_coords = coordinates(egtrack)[1:dim(egtrack)-1,]
+  # egtrack_coords = coordinates(egtrack)[1:dim(egtrack)-1,]
+  egtrack_coords = coordinates(egtrack)
+  
   bpds = as.data.frame(cbind(egtrack_coords, bool_stop))
-  
   bpts = find_diffs_it(bpds)
-  no_of_stop = length(bpts)/2
-  
   plot(egtrack, type = 'b', main = track_no)
+  
+  if(!is.null(bpts))
+  {
+    no_of_stop = length(bpts)/2
+  } else no_of_stop = 0
   
   if(no_of_stop > 0)
   {
