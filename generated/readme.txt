@@ -1,0 +1,1 @@
+After running the scripts this directory will contain data files related to merging duplicate or partially-duplicate visitors' trajectories for archival and future reference.
