@@ -12,7 +12,7 @@ master_layout = function()
 {
   plot(cam, xlim = c(-1, 4.7), ylim = c(-0.5, 6), xlab = "x direction (in m)", ylab = "y direction (in m)", col = "red", pch = 18, cex = 1.5)
   text(x = cam[1,], "Camera #1", pos = 1)
-  text(x = cam[2,], "Camera #2", pos = 4)
+  text(x = cam[2,], "Camera #2", pos = 4, srt = 90)
   text(x = cam[3,], "Camera #4", pos = 1)
   
   axis(side = 3)
