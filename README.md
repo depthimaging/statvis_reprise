@@ -21,14 +21,14 @@ The major tasks of this group could be categorized into the following major cate
 This repository (`statvis_reprise`) contains code for a part of the above tasks. A bit more details of the tasks which were addressed in this repository are listed below. This repository contains only the code which was developed by Pramit Ghosh for the purpose of the study project. The code for the other parts can be found in the other repositories in this Github organization (depthimaging).
 
 * Import JSON from cameras into a statistical computing environment
+  * Implement recursive directory traversal for reading the JSON files from disk
   * Remove unwanted header from file so that it is a syntactically correct JSON file
-  * Implement recursive directory traversal for the 3 cameras
 * Set up a conceptual reference frame for the area
   * Set up a global reference system into which all coordinates from local coordinate systems of individual cameras have to be mapped
 * Processing to take care of visitor trajectories and movements
   * Recognizing individual visitors from spatio-temporal data only (not focussing on joint distance measurements)
 * Statistical Analysis
-  * Finding regions where visitors' stopped
+  * Finding regions where visitors stopped
 * Visualization
   * Visualization of the floorplan, visitors' trajectories and summaries of the tracks in R
   * Interactive animation for selected visitors' trajectories embedded in HTML
