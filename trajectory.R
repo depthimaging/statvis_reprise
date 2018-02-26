@@ -39,6 +39,9 @@ create_trajectories = function(global_json)
       
       #Finally create an object of class Track (from trajectories) from the STIDF object created above
       track_obj = Track(stidf_obj)
+      # Important Note: For some JSON files, the following error is thrown on the previous line:
+      # Error in data.frame(distance = distance, duration = duration, speed = speed,  : 
+      #                         arguments imply differing number of rows: 1, 0 
       
       #Append this Track object to the list for that particular camera (each_cam)
       each_cam = c(each_cam, list(track_obj))

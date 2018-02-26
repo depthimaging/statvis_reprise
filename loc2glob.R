@@ -26,16 +26,14 @@ loc2glob = function(local_json)
       }
 
       C = cam[3,]
-      # The following code for Camera #4 is working perfectly.
-      # Since the data being used doesn't have data from camera 4, it is throwing an error for subscripts being out of bounds.
-      # Just uncomment the following loop when there is data from camera #4
-      # for(tracks in 1:length(local_json$c4))
-      # {
-      #   c4x = C$x + local_json$c4[[tracks]]$y
-      #   c4y = C$y + local_json$c4[[tracks]]$x
-      #   local_json$c4[[tracks]]$x = c4x
-      #   local_json$c4[[tracks]]$y = c4y
-      # }
+      # The following code for Camera #4 is working now!
+      for(tracks in 1:length(local_json$c4))
+      {
+        c4x = C$x + local_json$c4[[tracks]]$y
+        c4y = C$y + local_json$c4[[tracks]]$x
+        local_json$c4[[tracks]]$x = c4x
+        local_json$c4[[tracks]]$y = c4y
+      }
     
       C = cam[2,]
       for(tracks in 1:length(local_json$c2))

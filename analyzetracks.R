@@ -7,6 +7,11 @@ source("camera_functions.R")
 source("intercamera_static.R")
 source("intercamera_dynamic.R")
 
+# Important Note: For some files, the following error is thrown in this or any of the
+# scripts this script depends on (those listed above and their dependencies):
+# Error in `row.names<-.data.frame`(`*tmp*`, value = value) : 
+# invalid 'row.names' length
+
 #Initializes matrices for storing calculations for the static (dup_mat) and dynamic (dup_mat_dyn) analyses
 #Since these are calculated pairwise for all the tracks, the number of rows and columns of these
 #matrices are set accordinly (equal to the total number of tracks in globalized_tracks). Implicitly
