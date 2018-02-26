@@ -65,3 +65,6 @@ Alternatively, if the scripts are to be run in a more modular manner the modules
 `source("analyzestats.R")`
 
 to achieve the same results. Then, the summaries of a track may be viewed using the `track_details()` function in the manner described above.
+
+### Further Resources
+Information on the function of each script, the architecture, known issues and contact information can be found on the Wiki for this repository here: <https://github.com/depthimaging/statvis_reprise/wiki>
